@@ -666,6 +666,24 @@ func renderServices(services []*descriptor.Service, paths swaggerPathsObject, re
 						}
 						operationObject.Security = newSecurity
 					}
+					if len(opts.Responses) > 0 {
+						operationObject.Responses = swaggerResponsesObject{}
+						for i, resp := range opts.Responses {
+							var s swaggerSchemaObject
+							sn := fullyQualifiedNameToSwaggerName(meth.ResponseType.FQMN(), reg)
+							if i == 0 && sn != "protobufEmpty" {
+								s = swaggerSchemaObject{
+									schemaCore: schemaCore{
+										Ref: fmt.Sprintf("#/definitions/%s", sn),
+									},
+								}
+							}
+							operationObject.Responses[resp.Code] = swaggerResponseObject{
+								Description: resp.Description,
+								Schema: s,
+							}
+						}
+					}
 
 					// TODO(ivucica): add remaining fields of operation object
 				}

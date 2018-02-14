@@ -42,6 +42,11 @@ message Swagger {
   ExternalDocumentation external_docs = 14;
 }
 
+message Response {
+    string code = 1;
+    string description = 2;
+}
+
 // `Operation` is a representation of OpenAPI v2 specification's Operation object.
 //
 // See: https://github.com/OAI/OpenAPI-Specification/blob/3.0.0/versions/2.0.md#operationObject
@@ -57,8 +62,7 @@ message Operation {
   repeated string produces = 7;
   // field 8 is reserved for 'parameters'.
   reserved 8;
-  // field 9 is reserved for 'responses'.
-  reserved 9;
+  repeated Response responses = 9;
   repeated string schemes = 10;
   bool deprecated = 11;
   repeated SecurityRequirement security = 12;
